@@ -1,0 +1,66 @@
+{
+    "data_loader": {
+        "type" : "MIT-BIH",
+        "args" : {
+            "batch_size" : 64,
+            "num_workers" :8,
+            "path" :  {
+                "train" : "/data/common/MIT-BIH/mitbih_train.csv",
+                "eval" : "/data/common/MIT-BIH/mitbih_test.csv"
+                }
+        }
+    
+    },
+
+    "model" : {
+        "type" : "CNN",
+        "args":{
+            "num_layers":  6,
+            "signal_length": 187,
+            "num_classes":  5,
+            "input_channels":  1,
+            "embed_size":  192,
+            "num_heads":  8,
+            "expansion":  4
+        }
+    },
+
+    "optimizer" : {
+        "type" : "Adam",
+        "args": {
+            "lr" : 2e-4,
+            "weight_decay" : 1e-4
+        }
+    },
+
+    "metric" : {
+        "type" : "AUROC",
+        "task" : "multiclass",
+        "average" : "macro"
+      
+    },
+
+    "loss" :{
+        "type" : "Weighted_CE_loss",
+        "weight" : [0.1, 0.4, 0.2, 0.5, 0.2]
+ 
+    },
+
+    "trainer" : {
+        "num_epochs" : 150,
+        "early_stopping_epochs" : 25,
+        "lr" : 2e-4,
+        "weight_decay" : 1e-4,
+        "best_model_path" : "/data/hongwonseok/ECG-SNN/best_model/MLP/Model.pth",
+        "T_max": 50,
+        "eta_min" : 1e-5
+    },
+
+    
+
+
+    "device" : {
+        "gpu" : "2",
+        "cuda" : "cuda"
+    }
+}
